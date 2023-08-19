@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: noaa-ghcnd-raw
+    database: swift-arcadia-387709
+    schema: noaa_ghcn_all
+    tables:
+      - name: VM_raw
+      - name: stations
+  
