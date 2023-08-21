@@ -1,0 +1,3 @@
+{
+  "ghcndToGcsBqFlow": "workflow/flows/ghcnd_to_gcs_bq.py:ghcndToGcsBqFlow"
+}
