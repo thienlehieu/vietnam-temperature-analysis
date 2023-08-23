@@ -1,13 +1,16 @@
 from prefect import flow
 from pyspark.sql import functions as F
 from pyspark.sql import types
+from pyspark import SparkFiles
 from spark_cluster import SparkCluster
+from setting import *
 
 spark = SparkCluster().setUp()
 
 @flow()
 def ghcndToGcsFlow(year):
-    file_url = f"data/raw/climate/{year}.csv.gz"
+    file_url = f"https://noaa-ghcn-pds.s3.amazonaws.com/csv.gz/by_year/{year}.csv.gz"
+    spark.sparkContext.addFile(file_url)
     gcs_path = f"gs://noaa_ghcn_data_lake_swift-arcadia-387709/data/pq/climate/{year}/"
     schema = types.StructType([
         types.StructField("StationId", types.StringType(), True),
@@ -22,7 +25,7 @@ def ghcndToGcsFlow(year):
     df = spark.read \
         .option("header", "true") \
         .schema(schema) \
-        .csv(file_url)
+        .csv("file://" + SparkFiles.get(f"{year}.csv.gz"))
     df = df.withColumn('countryCode', F.substring("StationId", 0, 2))
     df.write.format('parquet') \
     .partitionBy("countryCode") \
@@ -35,6 +38,7 @@ def ghcndToBqFlow(year, countryCode):
     output_url = f"noaa_ghcn_all.{countryCode}_raw"
     df = spark.read.parquet(url)
     df.write.format('bigquery') \
+        .option('parentProject', GCLOUD_PROJECT_ID) \
         .option('table', output_url) \
         .option('temporaryGcsBucket', 'dataproc-temp-asia-southeast1-268226740873-e5cx4k3f') \
         .mode("append") \
