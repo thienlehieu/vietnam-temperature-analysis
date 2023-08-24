@@ -7,10 +7,9 @@ FROM openjdk:8-slim-buster
 
 COPY --from=py3 / /
 
-ARG PYSPARK_VERSION=3.4.1
-RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION}
-RUN pip --no-cache-dir install prefect==2.10.20
-RUN pip --no-cache-dir install environs==9.5.0
+COPY requirements.txt .
+
+RUN pip --no-cache-dir install -r requirements.txt
 
 COPY workflow/flows /opt/prefect/flows
 ARG WORKDIR=/app
