@@ -17,5 +17,4 @@ lib/
 serving_dir
 .ipynb_checkpoints/
 !week_6_stream_processing/avro_example/data/rides.csv
-*.yaml
 .env

@@ -26,11 +26,12 @@ def ghcndToGcsFlow(year):
         .option("header", "true") \
         .schema(schema) \
         .csv("file://" + SparkFiles.get(f"{year}.csv.gz"))
-    df = df.withColumn('countryCode', F.substring("StationId", 0, 2))
-    df.write.format('parquet') \
-    .partitionBy("countryCode") \
-    .option('path', gcs_path) \
-    .save()
+    df = df.withColumn("countryCode", F.substring("StationId", 0, 2))
+    df.write.format("parquet") \
+        .partitionBy("countryCode") \
+        .option("path", gcs_path) \
+        .mode("overwrite") \
+        .save()
 
 @flow()
 def ghcndToBqFlow(year, countryCode):

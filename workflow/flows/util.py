@@ -24,7 +24,7 @@ def write_bq(df, table):
       if_exists="append",
   )
 
-@task()
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def download_file(url, fileName):
    data = requests.get(url)
    with open(os.path.join(os.getcwd(), fileName), "wb+") as file:
