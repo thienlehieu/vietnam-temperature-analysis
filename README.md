@@ -31,7 +31,7 @@ pip install -r requirements.txt
 
 ## Run
 
-### Create google cloud resources
+### Create google cloud resources with terraform
 ```console
 cd terraform
 terraform init
@@ -47,15 +47,40 @@ Create deployments:
 For get station data from noaa-datasets and store in google cloud bucket:
 - Running in local
 ```console
- prefect deployment build workflow/flows/reports.py:stations_to_gcv -n <name_your_flow>
+ prefect deployment build workflow/flows/stations_to_gcb.py:stationsToGcsBq -n <name_your_flow>
  prefect deployment apply <file_from_build>
 ```
 - Running with docker
 ```console
- prefect deployment build workflow/flows/reports.py:stations_to_gcv -n <name_your_flow> -i docker-container
+ prefect deployment build workflow/flows/stations_to_gcb.py:stationsToGcsBq -n <name_your_flow> -i docker-container
  prefect deployment apply <file_from_build>
 ```
-- Add enviroment variables in .yml file, or specify docker image (build from [Dockerfile](Dockerfile)) if you run in docker
+
+For get climate data from noaa-datasets and store in google cloud bucket and big query
+- Running in local
+```console
+ prefect deployment build workflow/flows/ghcnd_to_gcs_bq.py:ghcndToGcsBqFlow -n <name_your_flow>
+ prefect deployment apply <file_from_build>
+```
+- Running with docker
+```console
+ prefect deployment build workflow/flows/ghcnd_to_gcs_bq.py:ghcndToGcsBqFlow -n <name_your_flow> -i docker-container
+ prefect deployment apply <file_from_build>
+```
+
+For read data from bucket and make average temperature report, then save to big query:
+- Running in local
+```console
+ prefect deployment build workflow/flows/reports.py:writeAvgTempReportToBq -n <name_your_flow>
+ prefect deployment apply <file_from_build>
+```
+- Running with docker
+```console
+ prefect deployment build workflow/flows/reports.py:writeAvgTempReportToBq -n <name_your_flow> -i docker-container
+ prefect deployment apply <file_from_build>
+```
+
+Add enviroment variables in .yaml file, or specify docker image (build from [Dockerfile](Dockerfile)) if you run in docker
 
 Run flows:
 - Start prefect agent
