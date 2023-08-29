@@ -8,7 +8,7 @@ class SparkCluster:
     self.conf = SparkConf() \
         .setMaster('local[*]') \
         .setAppName('Monkey D.Luffy') \
-        .set("spark.jars", f"{GCS_CONNECTOR_LIB},{BQ_CONNECTOR_LIB}") \
+        .set("spark.jars", f"{GCS_CONNECTOR_LIB_PATH},{BQ_CONNECTOR_LIB_PATH}") \
         .set("spark.hadoop.google.cloud.auth.service.account.enable", "true") \
         .set("spark.hadoop.google.cloud.auth.service.account.json.keyfile", GCLOUD_CREDENTIAL_LOCATION)
   
