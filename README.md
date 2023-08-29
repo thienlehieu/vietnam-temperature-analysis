@@ -55,7 +55,7 @@ For get station data from noaa-datasets and store in google cloud bucket:
  prefect deployment build workflow/flows/reports.py:stations_to_gcv -n <name_your_flow> -i docker-container
  prefect deployment apply <file_from_build>
 ```
-- Add enviroment variables in .yml file, or specify docker image (build from [Dockerfile](.Dockerfile)) if you run in docker
+- Add enviroment variables in .yml file, or specify docker image (build from [Dockerfile](Dockerfile)) if you run in docker
 
 Run flows:
 - Start prefect agent
