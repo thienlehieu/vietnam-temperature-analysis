@@ -21,7 +21,7 @@ This project aims for three things:
 ## Setup
 1. Install Apache Spark
 2. Install Python 3
-3. Install [requirements.txt](.github/requirements.txt)
+3. Install [requirements.txt](requirements.txt)
 ```console
 pip install -r requirements.txt
 ```
@@ -55,7 +55,7 @@ For get station data from noaa-datasets and store in google cloud bucket:
  prefect deployment build workflow/flows/reports.py:stations_to_gcv -n <name_your_flow> -i docker-container
  prefect deployment apply <file_from_build>
 ```
-- Add enviroment variables in .yml file, or specify docker image (build from [Dockerfile](.github/Dockerfile)) if you run in docker
+- Add enviroment variables in .yml file, or specify docker image (build from [Dockerfile](.Dockerfile)) if you run in docker
 
 Run flows:
 - Start prefect agent
@@ -69,7 +69,7 @@ prefect deployment run <flow_name>
 ```
 
 ### Run dbt
-Update data sources in [schema.yml](.github/dbt/models/temperature/schema.yml)
+Update data sources in [schema.yml](dbt/models/temperature/schema.yml)
 ```console
 cd dbt
 dbt run 
